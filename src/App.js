@@ -1,7 +1,7 @@
 import React from 'react';
 import './styles/App.css';
-import AuthContainer from '../src/components/AuthContainer'
-import RegistrationContainer from '../src/components/RegistrationContainer'
+import AuthContainer from '../src/components/Auth/AuthContainer'
+import RegistrationContainer from '../src/components/Registration/RegistrationContainer'
 
 
 function App() {

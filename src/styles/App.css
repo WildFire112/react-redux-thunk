@@ -44,4 +44,15 @@
   align-items: center;
   justify-content: center;
   color: #fff;
+  cursor: pointer;
+  user-select: none;
+}
+
+.sign-btn:hover{
+  background-color: #895ab6;
+  transition: all 0.3s;
+}
+
+.sign-btn:active {
+  background-color: #7b39b9;
 }

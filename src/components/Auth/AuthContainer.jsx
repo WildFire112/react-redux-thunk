@@ -1,17 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 
-import { setEmailText, setPasswordText } from '../store/auth/actions';
+import { postUser } from '../../store/auth/actions';
 import Auth from './Auth';
 
 class AuthContainer extends Component {
   render() {
     return (
       <Auth
-        email={this.props.email}
-        password={this.props.password}
-        setEmailText={this.props.setEmailText}
-        setPasswordText={this.props.setPasswordText}
+        postUser={this.props.postUser}
       />
     )
   }
@@ -19,14 +16,12 @@ class AuthContainer extends Component {
 
 const mapStateToProps = state => {
   return {
-    email: state.auth.email,
-    password: state.auth.password
+    errors: state.auth.errors
   }
 }
 
 const mapDispatchToProps = {
-  setEmailText,
-  setPasswordText
+  postUser
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthContainer)
