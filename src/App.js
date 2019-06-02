@@ -12,8 +12,8 @@ function App() {
       <div className="sign-container">
         <AuthContainer />
         <RegistrationContainer />
-        <TestContainer />
       </div>
+      <TestContainer />
     </div>
   );
 }
