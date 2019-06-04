@@ -3,53 +3,82 @@ import React, { Component } from 'react'
 export default class Registration extends Component {
   constructor(props) {
     super(props)
-    
-    this.onEmailChange = this.onEmailChange.bind(this)
-    this.onPasswordChange = this.onPasswordChange.bind(this)
-    this.onRepeatPasswordChange = this.onRepeatPasswordChange.bind(this)
+
+    this.state = {
+      name: '',
+      idName: '',
+      email: '',
+      password: '',
+      repeatPassword: '',
+      errors: this.props.errors
+    }
   }
 
-  onEmailChange(e) {
-    this.props.setEmailText(e.target.value)
+  onChange = e => {
+    this.setState({[e.target.name]: e.target.value})
   }
 
-  onPasswordChange(e) {
-    this.props.setPasswordText(e.target.value)
+  onIdNameChange = e => {
+    // eslint-disable-next-line
+    const value = '@' + e.target.value.trim().replace(/[^\w\.]/gi, '')
+    this.setState({idName: value === '@' ? '' : value})
   }
 
-  onRepeatPasswordChange(e) {
-    this.props.setRepeatPasswordText(e.target.value)
+  onSubmit = e => {
+    const userData = {
+      name: this.state.name,
+      idName: this.state.idName,
+      email: this.state.email,
+      password: this.state.password,
+      repeatPassword: this.state.repeatPassword
+    }
+    this.props.registerNewUser(userData)
   }
 
   render() {
     return (
       <div className="sign-block">
-        <h2 className="sign-block-title">Sign Up</h2>
         <input
           type="email"
           name="email"
-          placeholder="E-mail"
+          placeholder="e-mail"
           className="input"
-          value={this.props.email}
-          onChange={this.onEmailChange}
+          value={this.state.email}
+          onChange={this.onChange}
+        />
+        <input
+          type="text"
+          name="name"
+          placeholder="имя"
+          className="input"
+          value={this.state.name}
+          onChange={this.onChange}
+        />
+        <input
+          type="text"
+          name="idName"
+          placeholder="id"
+          className="input"
+          value={this.state.idName}
+          onChange={this.onIdNameChange}
         />
         <input
           type="password"
           name="password"
-          placeholder="Password"
+          placeholder="пароль"
           className="input"
-          value={this.props.password}
-          onChange={this.onPasswordChange}
+          value={this.state.password}
+          onChange={this.onChange}
         />
         <input
           type="password"
-          name="repeat-password"
-          placeholder="Repeat password"
+          name="repeatPassword"
+          placeholder="повторите пароль"
           className="input"
-          value={this.props.repeatPassword}
-          onChange={this.onRepeatPasswordChange}
+          value={this.state.repeatPassword}
+          onChange={this.onChange}
         />
-        <div className="sign-btn">SIGN UP</div>
+        <div className="sign-btn" onClick={this.onSubmit}>SIGN UP</div>
       </div>
     )
   }

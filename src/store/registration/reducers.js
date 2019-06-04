@@ -1,29 +1,14 @@
-import { REGISTRATION_CHANGE_EMAIL_TEXT, REGISTRATION_CHANGE_PASSWORD_TEXT, REGISTRATION_CHANGE_REPEAT_PASSWORD_TEXT } from './actions'
+import { REGISTER_NEW_USER } from './actions'
 
 const defaultState = {
-  email: '',
-  password: '',
-  repeatPassword: ''
+  errors: []
 }
 
 export const registrationReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case REGISTRATION_CHANGE_EMAIL_TEXT:
+    case REGISTER_NEW_USER:
       return {
-        ...state,
-        email: action.payload
-      }
-
-    case REGISTRATION_CHANGE_PASSWORD_TEXT:
-      return {
-        ...state,
-        password: action.payload
-      }
-
-    case REGISTRATION_CHANGE_REPEAT_PASSWORD_TEXT:
-      return {
-        ...state,
-        repeatPassword: action.payload
+        errors: action.errors
       }
       
     default: return state

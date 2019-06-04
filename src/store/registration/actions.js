@@ -1,18 +1,30 @@
-export const REGISTRATION_CHANGE_EMAIL_TEXT = 'REGISTRATION_CHANGE_EMAIL_TEXT'
-export const REGISTRATION_CHANGE_PASSWORD_TEXT = 'REGISTRATION_CHANGE_PASSWORD_TEXT'
-export const REGISTRATION_CHANGE_REPEAT_PASSWORD_TEXT = 'REGISTRATION_CHANGE_REPEAT_PASSWORD_TEXT'
+import axios from 'axios'
+import { login } from '../user/actions'
+export const REGISTER_NEW_USER = 'REGISTER_NEW_USER'
 
-export const setEmailText = email => ({
-  type: REGISTRATION_CHANGE_EMAIL_TEXT,
-  payload: email
+
+const fetchUser = errors => ({
+  type: REGISTER_NEW_USER,
+  errors
 })
 
-export const setPasswordText = password => ({
-  type: REGISTRATION_CHANGE_PASSWORD_TEXT,
-  payload: password
-})
+export const registerNewUser = userData => {
+  return (dispatch) => {
+    return axios.post('/api/auth/register', {
+      name: userData.name,
+      email: userData.email,
+      password: userData.password,
+      repeatPassword: userData.repeatPassword,
+      idName: userData.idName
+    })
+      .then(res => {
+        localStorage.setItem('cool-jwt', res.data.token)
+        dispatch(fetchUser([]))
+        dispatch(login(res.data.user))
+      })
+      .catch(err => {
+        dispatch(fetchUser(err.response.data.errors))
+      })
 
-export const setRepeatPasswordText = repeatPassword => ({
-  type: REGISTRATION_CHANGE_REPEAT_PASSWORD_TEXT,
-  payload: repeatPassword
-})
+  }
+}

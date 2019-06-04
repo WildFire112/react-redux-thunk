@@ -9,6 +9,7 @@ class AuthContainer extends Component {
     return (
       <Auth
         postUser={this.props.postUser}
+        errors={this.props.errors}
       />
     )
   }

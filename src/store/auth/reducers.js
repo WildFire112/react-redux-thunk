@@ -1,11 +1,7 @@
 import { POST_USER } from './actions'
 
 const defaultState = {
-  errors: [],
-  user: {
-    email: '',
-    password: ''
-  }
+  errors: []
 }
 
 export const authReducer = (state = defaultState, action) => {
@@ -13,9 +9,10 @@ export const authReducer = (state = defaultState, action) => {
     case POST_USER:
       return {
         ...state,
-        user: action.payload
+        errors: action.errors
       }
 
     default: return state
   }
 }
+
