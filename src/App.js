@@ -21,12 +21,35 @@ class App extends Component {
           <RegistrationContainer />
           <LogoutContainer />
         </div>
-        {this.props.LoggedIn ?
-          <div>Logged In</div>
-          :
-          <div>Unauthorized</div>
-        }
-        {console.log(this.props.isLoggedIn)}
+        <div className="Test">
+          {this.props.LoggedIn ?
+            <div>Logged In</div>
+            :
+            <div>Unauthorized</div>
+          }
+          <dir>
+            {this.props.user.name ?
+              <>
+                <div>User:</div>
+                <div>-{this.props.user.name}</div>
+                <div>-{this.props.user.idName}</div>
+                <div>-{this.props.user.email}</div>
+                <div>-{this.props.user.status}</div>
+              </>
+              : ''
+            }
+          </dir>
+          <div>
+            {this.props.registerErrors.length !== 0 ? <div>Registration errors:</div> : ''}
+            {this.props.registerErrors.map(err => {
+              return (<div>-{err.msg}</div>)
+            })}
+            {this.props.loginErrors.length !== 0 ? <div>Login errors:</div> : ''}
+            {this.props.loginErrors.map(err => {
+              return (<div>-{err.msg}</div>)
+            })}
+          </div>
+        </div>
       </div>
     )
   }
@@ -34,7 +57,10 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    LoggedIn: state.user
+    LoggedIn: state.user.isLoggedIn,
+    user: state.user.data,
+    registerErrors: state.registration.errors,
+    loginErrors: state.auth.errors
   }
 }
 

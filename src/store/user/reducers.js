@@ -1,11 +1,8 @@
 import { IS_LOGGED_IN, LOG_OUT, LOG_IN } from './actions'
 
 const defaultState = {
-  name: '',
-  idName: '',
-  status: '',
-  email: '',
-  _id: '',
+  data: {},
+  errors: {},
   isLoggedIn: false
 }
 
@@ -13,9 +10,14 @@ export const userReducer = (state = defaultState, action) => {
   switch (action.type) {
     case IS_LOGGED_IN:
       if (!localStorage.getItem('cool-jwt'))
-        return state
+        return {
+          ...defaultState,
+          errors: action.errors
+        }
       return {
         ...state,
+        data: action.data,
+        errors: action.errors,
         isLoggedIn: true
       }
     case LOG_OUT:
@@ -23,11 +25,8 @@ export const userReducer = (state = defaultState, action) => {
       return defaultState
     case LOG_IN:
       return {
-        name: action.user.name,
-        idName: action.user.idName,
-        status: action.user.status,
-        email: action.user.email,
-        _id: action.user._id,
+        data: action.data,
+        errors: action.errors,
         isLoggedIn: true
       }
     default:

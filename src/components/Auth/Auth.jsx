@@ -25,7 +25,7 @@ export default class Auth extends Component {
           type="text"
           name="email"
           autoComplete="off"
-          placeholder="E-mail"
+          placeholder="e-mail"
           spellCheck={false}
           className="input"
           value={this.state.email}
@@ -34,7 +34,7 @@ export default class Auth extends Component {
         <input
           type="password"
           name="password"
-          placeholder="Password"
+          placeholder="пароль"
           className="input"
           value={this.state.password}
           onChange={this.onChange}

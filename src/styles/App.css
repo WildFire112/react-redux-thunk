@@ -56,3 +56,9 @@
 .sign-btn:active {
   background-color: #7b39b9;
 }
+/* TODO: удалить */
+.Test{
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px dotted #a0a0a0
+}
