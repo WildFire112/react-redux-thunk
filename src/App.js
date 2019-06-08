@@ -3,9 +3,11 @@ import './styles/App.css';
 import AuthContainer from '../src/components/Auth/AuthContainer'
 import RegistrationContainer from '../src/components/Registration/RegistrationContainer'
 import LogoutContainer from './components/Logout/LogoutContainer';
-import { isLoggedIn } from './store/user/actions';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
+import { isLoggedIn } from './store/user/actions';
+import NavBar from './components/NavBar';
 
 class App extends Component {
   componentDidMount() {
@@ -14,45 +16,50 @@ class App extends Component {
 
   render() {
     return (
-      <div className="container" >
-        <h1>Redux test</h1>
-        <div className="sign-container">
-          <AuthContainer />
-          <RegistrationContainer />
-          <LogoutContainer />
+      <Router>
+        <NavBar />
+        <div className="container" >
+          <Switch>
+          </Switch>
+          {test(this.props)}
         </div>
-        <div className="Test">
-          {this.props.LoggedIn ?
-            <div>Logged In</div>
-            :
-            <div>Unauthorized</div>
-          }
-          <dir>
-            {this.props.user.name ?
-              <>
-                <div>User:</div>
-                <div>-{this.props.user.name}</div>
-                <div>-{this.props.user.idName}</div>
-                <div>-{this.props.user.email}</div>
-                <div>-{this.props.user.status}</div>
-              </>
-              : ''
-            }
-          </dir>
-          <div>
-            {this.props.registerErrors.length !== 0 ? <div>Registration errors:</div> : ''}
-            {this.props.registerErrors.map(err => {
-              return (<div>-{err.msg}</div>)
-            })}
-            {this.props.loginErrors.length !== 0 ? <div>Login errors:</div> : ''}
-            {this.props.loginErrors.map(err => {
-              return (<div>-{err.msg}</div>)
-            })}
-          </div>
-        </div>
-      </div>
+      </Router>
     )
   }
+}
+
+const test = (props) => {
+  return (
+    <div className="Test">
+      {props.LoggedIn ?
+        <div>Logged In</div>
+        :
+        <div>Unauthorized</div>
+      }
+      <dir>
+        {props.user.name ?
+          <>
+            <div>User:</div>
+            <div>-{props.user.name}</div>
+            <div>-{props.user.idName}</div>
+            <div>-{props.user.email}</div>
+            <div>-{props.user.status}</div>
+          </>
+          : ''
+        }
+      </dir>
+      <div>
+        {props.registerErrors.length !== 0 ? <div>Registration errors:</div> : ''}
+        {props.registerErrors.map(err => {
+          return (<div>-{err.msg}</div>)
+        })}
+        {props.loginErrors.length !== 0 ? <div>Login errors:</div> : ''}
+        {props.loginErrors.map(err => {
+          return (<div>-{err.msg}</div>)
+        })}
+      </div>
+    </div>
+  )
 }
 
 const mapStateToProps = state => {
