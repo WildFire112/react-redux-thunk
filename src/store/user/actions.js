@@ -1,22 +1,62 @@
 import axios from 'axios'
-export const IS_LOGGED_IN = 'IS_LOGGED_IN'
-export const LOG_OUT = 'LOG_OUT'
-export const LOG_IN = 'LOG_IN'
 
-export const checkLogin = (user, errors) => ({
+import { addLoginErrors, addRegistrationErrors } from '../errors/actions'
+
+export const LOG_IN = 'LOG_IN'
+export const LOG_OUT = 'LOG_OUT'
+export const IS_LOGGED_IN = 'IS_LOGGED_IN'
+
+const checkLogin = (user, errors) => ({
   type: IS_LOGGED_IN,
   data: user,
   errors
+})
+
+const login = (user) => ({
+  type: LOG_IN,
+  data: user
 })
 
 export const logout = () => ({
   type: LOG_OUT
 })
 
-export const login = (user) => ({
-  type: LOG_IN,
-  data: user
-})
+export const postUser = userData => {
+  return (dispatch) => {
+    return axios.post('/api/auth/login', {
+      email: userData.email,
+      password: userData.password,
+    })
+      .then(res => {
+        localStorage.setItem('cool-jwt', res.data.token)
+        dispatch(login(res.data.user))
+      })
+      .catch(err => {
+        dispatch(addLoginErrors(err.response.data.errors))
+      })
+
+  }
+}
+
+export const registerNewUser = userData => {
+  return (dispatch) => {
+    return axios.post('/api/auth/register', {
+      name: userData.name,
+      email: userData.email,
+      password: userData.password,
+      repeatPassword: userData.repeatPassword,
+      idName: userData.idName
+    })
+      .then(res => {
+        localStorage.setItem('cool-jwt', res.data.token)
+        dispatch(login(res.data.user))
+      })
+      .catch(err => {
+        dispatch(addRegistrationErrors(err.response.data.errors))
+      })
+
+  }
+}
 
 export const isLoggedIn = () => {
   return (dispatch) => {
@@ -30,7 +70,7 @@ export const isLoggedIn = () => {
         dispatch(checkLogin(res.data, {}))
       })
       .catch(err => {
-        dispatch(checkLogin({},{msg: err.response.data}))
+        dispatch(checkLogin({}, { msg: err.response.data }))
       })
 
   }

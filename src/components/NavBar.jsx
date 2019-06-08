@@ -6,9 +6,7 @@ import { StatefulToolTip } from 'react-portal-tooltip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/pro-solid-svg-icons'
 
-import { postUser } from '../store/auth/actions';
-import { logout } from '../store/user/actions'
-import { registerNewUser } from '../store/registration/actions';
+import { logout,postUser,registerNewUser } from '../store/user/actions'
 
 import '../styles/NavBar.css'
 

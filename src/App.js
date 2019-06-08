@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import './styles/App.css';
-import AuthContainer from '../src/components/Auth/AuthContainer'
-import RegistrationContainer from '../src/components/Registration/RegistrationContainer'
-import LogoutContainer from './components/Logout/LogoutContainer';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
@@ -49,14 +46,22 @@ const test = (props) => {
         }
       </dir>
       <div>
-        {props.registerErrors.length !== 0 ? <div>Registration errors:</div> : ''}
-        {props.registerErrors.map(err => {
-          return (<div>-{err.msg}</div>)
-        })}
-        {props.loginErrors.length !== 0 ? <div>Login errors:</div> : ''}
-        {props.loginErrors.map(err => {
-          return (<div>-{err.msg}</div>)
-        })}
+        {props.registerErrors !== undefined ?
+          <div>
+            <div>Registration errors:</div>
+            {Object.values(props.registerErrors).map(err => {
+              return (<div>-{err.msg}</div>)
+            })}
+          </div>
+          : ''}
+        {props.loginErrors !== undefined ?
+          <div>
+            <div>Login errors:</div>
+            {Object.values(props.loginErrors).map(err => {
+              return (<div>-{err.msg}</div>)
+            })}
+          </div>
+          : ''}
       </div>
     </div>
   )
@@ -66,8 +71,8 @@ const mapStateToProps = state => {
   return {
     LoggedIn: state.user.isLoggedIn,
     user: state.user.data,
-    registerErrors: state.registration.errors,
-    loginErrors: state.auth.errors
+    registerErrors: state.errors.registrationErrors,
+    loginErrors: state.errors.loginErrors
   }
 }
 
