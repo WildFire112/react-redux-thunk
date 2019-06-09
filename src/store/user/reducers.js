@@ -1,7 +1,8 @@
-import { IS_LOGGED_IN, LOG_OUT, LOG_IN } from './actions'
+import { IS_LOGGED_IN, LOG_OUT, LOG_IN, GET_USER_BY_IDNAME } from './actions'
 
 const defaultState = {
   data: {},
+  other: {},
   errors: {},
   isLoggedIn: false
 }
@@ -25,9 +26,16 @@ export const userReducer = (state = defaultState, action) => {
       return defaultState
     case LOG_IN:
       return {
+        ...state,
         data: action.data,
         errors: action.errors,
         isLoggedIn: true
+      }
+    case GET_USER_BY_IDNAME:
+      return {
+        ...state,
+        other: action.data,
+        errors: action.errors
       }
     default:
       return state

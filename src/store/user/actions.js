@@ -5,6 +5,13 @@ import { addLoginErrors, addRegistrationErrors } from '../errors/actions'
 export const LOG_IN = 'LOG_IN'
 export const LOG_OUT = 'LOG_OUT'
 export const IS_LOGGED_IN = 'IS_LOGGED_IN'
+export const GET_USER_BY_IDNAME = 'GET_USER_BY_IDNAME'
+
+const getUser = (user, errors) => ({
+  type: GET_USER_BY_IDNAME,
+  data: user,
+  errors
+})
 
 const checkLogin = (user, errors) => ({
   type: IS_LOGGED_IN,
@@ -72,6 +79,36 @@ export const isLoggedIn = () => {
       .catch(err => {
         dispatch(checkLogin({}, { msg: err.response.data }))
       })
+
+  }
+}
+
+export const getUserByIdName = idName => {
+  return (dispatch) => {
+    return axios.get(`/api/user/${idName}`)
+      .then(res => {
+        dispatch(getUser(res.data, {}))
+      })
+      .catch(err => {
+        dispatch(getUser({}, { msg: err.response.data }))
+      })
+  }
+}
+
+export const sendHeaderImage = file => {
+  return (dispatch) => {
+    const jwt = localStorage.getItem('cool-jwt')
+    const reader = new FileReader()
+    reader.readAsDataURL(file[0])
+    reader.onloadend = () => {
+      return axios.post('/api/user/header', {data: reader.result}, { headers: { 'auth-token': jwt } })
+        .then(res => {
+          dispatch(getUser(res.data, {}))
+        })
+        .catch(err => {
+          dispatch(getUser({}, { msg: err.response.data }))
+        })
+    }
 
   }
 }

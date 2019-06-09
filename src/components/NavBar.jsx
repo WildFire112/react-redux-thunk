@@ -111,7 +111,7 @@ class NavBar extends Component {
 
 const logoutBtn = t => {
   return (
-    <div class="nav-btn-login" onClick={t.logOut}>
+    <div className="nav-btn-login" onClick={t.logOut}>
       Выйти
     </div>
   )

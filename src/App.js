@@ -5,9 +5,10 @@ import { connect } from 'react-redux'
 
 import { isLoggedIn } from './store/user/actions';
 import NavBar from './components/NavBar';
+import Blog from './components/Blog';
 
 class App extends Component {
-  componentDidMount() {
+  componentWillMount() {
     this.props.isLoggedIn()
   }
 
@@ -15,11 +16,10 @@ class App extends Component {
     return (
       <Router>
         <NavBar />
-        <div className="container" >
-          <Switch>
-          </Switch>
-          {test(this.props)}
-        </div>
+        <Switch>
+          <Route path="/user/:id" exact component={Blog} />
+        </Switch>
+        {test(this.props)}
       </Router>
     )
   }
